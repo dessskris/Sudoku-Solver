@@ -68,4 +68,17 @@ void display_board(const char board[9][9]) {
   print_frame(9);
 }
 
+/* TASK 1 */
+/* Function to check if all entries in a given Sudoku board is a valid digit */
+Bool is_complete(char board[9][9]) {
+  for (int r=0; r<9; r++) {
+    for (int c=0; c<9; r++) {
+      return isdigit(board[i][j]);
+    }
+  }
+}
+
+
+
+
 /* add your functions here */
