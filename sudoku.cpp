@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#include <string>
 #include "sudoku.h"
 
 using namespace std;
@@ -69,7 +70,7 @@ void display_board(const char board[9][9]) {
 }
 
 /* TASK 1 */
-/* Function to check if all entries in a given Sudoku board is a valid digit */
+/* Function to check if all entries in a given Sudoku board is a digit */
 Bool is_complete(char board[9][9]) {
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; r++) {
@@ -78,7 +79,18 @@ Bool is_complete(char board[9][9]) {
   }
 }
 
+/* TASK 2 */
+/* Function to place a given digit onto a given Sudoku board
+   at a given position */
+Bool make_move(char position[3], char digit, char board[9][9]) {
+  if (!(position[0]>64 && position[0]<91)) { //The first character is an uppercase letter
+    return 0;
+  }
 
+  if (!(position[0]>96 && position[0]<123)) { //The first character is a lower case letter
+    return 0;
+  }
 
+}
 
 /* add your functions here */
