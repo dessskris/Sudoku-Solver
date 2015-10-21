@@ -69,6 +69,7 @@ void display_board(const char board[9][9]) {
   print_frame(9);
 }
 
+
 /* TASK 1 */
 /* Function to check if all entries in a given Sudoku board is a digit */
 Bool is_complete(char board[9][9]) {
@@ -79,17 +80,79 @@ Bool is_complete(char board[9][9]) {
   }
 }
 
+
 /* TASK 2 */
 /* Function to place a given digit onto a given Sudoku board
    at a given position */
 Bool make_move(char position[3], char digit, char board[9][9]) {
-  if (!(position[0]>64 && position[0]<91)) { //The first character is an uppercase letter
+  /* Confirm that the first character is a valid letter */
+  if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
     return 0;
+
+  /* Confirm that the second character is a valid number */
+  if (position[1]<49 || position[1]>57)
+    return 0;
+
+  /* Define the row number ranging from 1 to 9 */
+  int position_row;
+  if (position[0]>=65 && position[0]<=73) // Upper case letter
+    position_row = position[0] - 64;
+  if (position[0]>=97 && position[0]<=105) // Lower case letter
+    position_row = position[0] - 96;
+
+  /* Define the column number ranging from 1 to 9 */
+  int position_col = position[1] - 48;
+
+  /* Confirm that the given digit is not repeated in the same row */
+  for (int c=1, c<=9, c++) {
+    if (board[position_row][c] == digit)
+      return 0;
   }
 
-  if (!(position[0]>96 && position[0]<123)) { //The first character is a lower case letter
-    return 0;
+  /* Confirm that the given digit is not repeated in the same column */
+  for (int r=1, r<=9, r++) {
+    if (board[r][position_col] == digit)
+      return 0;
   }
+
+  /* Confirm that the given digit is not repeated in the same sub-grid */
+  /* First define the starting positions of the sub-grids */
+  int sub_grid_row_start;
+  if (position_row % 3 == 0) // position_row is 3, 6, or 9
+    sub_grid_row_start = position_row - 2;
+  else // position_row is 1, 2, 4, 5, 7, or 8
+    sub_grid_row_start = position_row - (position_row % 3);
+
+  int sub_grid_col_start;
+  if (position_col % 3 == 0) // position_col is 3, 6, or 9
+    sub_grid_col_start = position_col - 2;
+  else // position_col is 1, 2, 4, 5, 7, or 8
+    sub_grid_col_start = position_col - (position_col % 3);
+
+  /* Now check the other entries in the sub-grid */
+  for (int i=0, i<3, i++) {
+    for (int j=0, j<3, j++) {
+      if (board[sub_grid_row_start+i][sub_grid_col_start+j] == digit)
+	return 0;
+    }
+  }
+
+  /* At this stage, all checks have been performed.
+     We proceed to make a valid move. */
+
+  /* Place the given digit onto the given Sudoku board at the given position */
+  board[position_row][position_col] = digit;
+  return 1;
+}
+
+
+/* TASK 3 */
+/* Function to save a given Sudoku board in a file named "filename" */
+save_board(const char *filename, char board[9][9]) {
+  ofstream out_stream;
+
+  in_stream.
+
 
 }
 
