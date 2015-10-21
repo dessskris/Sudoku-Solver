@@ -84,7 +84,7 @@ Bool is_complete(char board[9][9]) {
 /* TASK 2 */
 /* Function to place a given digit onto a given Sudoku board
    at a given position */
-Bool make_move(char position[3], char digit, char board[9][9]) {
+Bool make_move(char position[2], char digit, char board[9][9]) {
   /* Confirm that the first character is a valid letter */
   if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
     return 0;
