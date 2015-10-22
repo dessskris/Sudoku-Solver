@@ -97,22 +97,18 @@ bool make_move(char position[3], char digit, char board[9][9]) {
   // Confirm that the first character is a valid letter
   if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
     return 0;
-
   // Confirm that the second character is a valid number
   if (position[1]<49 || position[1]>57)
     return 0;
 
-
-
-  // Define the row number ranging from 1 to 9
+  // Define the row number ranging from 0 to 8
   int position_row;
-  if (position[0]>=65 && position[0]<=73) // Upper case letter
-    position_row = position[0] - 64;
-  if (position[0]>=97 && position[0]<=105) // Lower case letter
-    position_row = position[0] - 96;
-
-  // Define the column number ranging from 1 to 9
-  int position_col = position[1] - 48;
+  if (position[0]>=65 && position[0]<=73) // Upper case letter input
+    position_row = position[0] - 65;
+  if (position[0]>=97 && position[0]<=105) // Lower case letter input
+    position_row = position[0] - 97;
+  // Define the column number ranging from 0 to 8
+  int position_col = position[1] - 49;
 
   if (!check_row(position_row, digit, board))
     return 0;
@@ -121,15 +117,11 @@ bool make_move(char position[3], char digit, char board[9][9]) {
   if (!check_subgrid(position_row, position_col, digit, board))
     return 0;
 
-
-  /* At this stage, all checks have been performed.
-     We proceed to make a valid move. */
-
-  /* Place the given digit onto the given Sudoku board at the given position */
-  board[position_row-1][position_col-1] = digit;
+  // Place the given digit onto the given Sudoku board at the given position
+  board[position_row][position_col] = digit;
   return 1;
 }
-
+/* END OF TASK 2 */
 
 /* TASK 3 */
 /* Function to save a given Sudoku board in a file named "filename" */
@@ -177,20 +169,9 @@ bool check_col(int col_number, char digit, char board[9][9]) {
 
 /* Function to confirm that a given digit is not repeated in the same sub-grid*/
 bool check_subgrid(int row_number, int col_number, char digit, char board[9][9]) {
-  // First define the starting positions of the sub-grids
-  int sub_grid_row_start;
-  if (row_number % 3 == 0) // row_number is 3, 6, or 9
-    sub_grid_row_start = row_number - 3;
-  else // row_number is 1, 2, 4, 5, 7, or 8
-    sub_grid_row_start = row_number - (row_number % 3) - 1;
+  int sub_grid_row_start = row_number - (row_number % 3);
+  int sub_grid_col_start = col_number - (col_number % 3);
 
-  int sub_grid_col_start;
-  if (col_number % 3 == 0) // col_number is 3, 6, or 9
-    sub_grid_col_start = col_number - 3;
-  else // col_number is 1, 2, 4, 5, 7, or 8
-    sub_grid_col_start = col_number - (col_number % 3) - 1;
-
-  // Now check the other entries in the sub-grid for repetitions
   for (int i=0; i<3; i++) {
     for (int j=0; j<3; j++) {
       if (board[sub_grid_row_start+i][sub_grid_col_start+j] == digit)
