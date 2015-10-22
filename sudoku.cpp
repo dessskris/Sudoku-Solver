@@ -83,7 +83,7 @@ Bool is_complete(char board[9][9]) {
 
 /* TASK 2 */
 /* Function to place a given digit onto a given Sudoku board
-   at a given position */
+   at a given position, if it is a valid move. */
 Bool make_move(char position[3], char digit, char board[9][9]) {
   /* Confirm that the first character is a valid letter */
   if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
@@ -155,5 +155,22 @@ save_board(const char *filename, char board[9][9]) {
 
 
 }
+
+
+
+/* TASK 4 */
+/* Function to solve a given Sudoku puzzle.
+   When a solution is found, the function returns TRUE and
+     updates the board with the solution.
+   When a solution does not exist, the function returns FALSE and
+     the board remains unchanged. */
+Bool solve_board(char board[9][9]); {
+
+
+}
+
+
+/* HELPER FUNCTION */
+
 
 /* add your functions here */
