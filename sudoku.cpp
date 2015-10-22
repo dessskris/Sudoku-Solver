@@ -70,73 +70,56 @@ void display_board(const char board[9][9]) {
 }
 
 
+/* add your functions here */
+
+/* START OF STUDENT'S WORK */
+
+
 /* TASK 1 */
 /* Function to check if all entries in a given Sudoku board is a digit */
-Bool is_complete(char board[9][9]) {
+bool is_complete(char board[9][9]) {
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; r++) {
-      return isdigit(board[i][j]);
+      return isdigit(board[r][c]);
     }
   }
 }
+/* END OF TASK 1 */
 
 
 /* TASK 2 */
 /* Function to place a given digit onto a given Sudoku board
    at a given position, if it is a valid move. */
-Bool make_move(char position[3], char digit, char board[9][9]) {
+bool make_move(char position[3], char digit, char board[9][9]) {
 
-  /* Confirm that the first character is a valid letter */
+  // Confirm that the first character is a valid letter
   if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
     return 0;
 
-  /* Confirm that the second character is a valid number */
+  // Confirm that the second character is a valid number
   if (position[1]<49 || position[1]>57)
     return 0;
 
-  /* Define the row number ranging from 1 to 9 */
+  // Define the row number ranging from 1 to 9
   int position_row;
   if (position[0]>=65 && position[0]<=73) // Upper case letter
     position_row = position[0] - 64;
   if (position[0]>=97 && position[0]<=105) // Lower case letter
     position_row = position[0] - 96;
 
-  /* Define the column number ranging from 1 to 9 */
+  // Define the column number ranging from 1 to 9
   int position_col = position[1] - 48;
 
-  /* Confirm that the given digit is not repeated in the same row */
-  for (int c=1, c<=9, c++) {
-    if (board[position_row][c] == digit)
-      return 0;
-  }
+  if (!check_row(position_row, digit, board))
+    return 0;
+  if (!check_col(position_col, digit, board))
+    return 0;
+  if (!check_subgrid(position_row, position_col, digit, board))
+    return 0;
 
-  /* Confirm that the given digit is not repeated in the same column */
-  for (int r=1, r<=9, r++) {
-    if (board[r][position_col] == digit)
-      return 0;
-  }
 
-  /* Confirm that the given digit is not repeated in the same sub-grid */
-  /* First define the starting positions of the sub-grids */
-  int sub_grid_row_start;
-  if (position_row % 3 == 0) // position_row is 3, 6, or 9
-    sub_grid_row_start = position_row - 2;
-  else // position_row is 1, 2, 4, 5, 7, or 8
-    sub_grid_row_start = position_row - (position_row % 3);
 
-  int sub_grid_col_start;
-  if (position_col % 3 == 0) // position_col is 3, 6, or 9
-    sub_grid_col_start = position_col - 2;
-  else // position_col is 1, 2, 4, 5, 7, or 8
-    sub_grid_col_start = position_col - (position_col % 3);
 
-  /* Now check the other entries in the sub-grid */
-  for (int i=0, i<3, i++) {
-    for (int j=0, j<3, j++) {
-      if (board[sub_grid_row_start+i][sub_grid_col_start+j] == digit)
-	return 0;
-    }
-  }
 
   /* At this stage, all checks have been performed.
      We proceed to make a valid move. */
@@ -149,10 +132,10 @@ Bool make_move(char position[3], char digit, char board[9][9]) {
 
 /* TASK 3 */
 /* Function to save a given Sudoku board in a file named "filename" */
-save_board(const char *filename, char board[9][9]) {
+bool save_board(const char *filename, char board[9][9]) {
   ofstream out_stream;
 
-  in_stream.
+  return 0;
 
 
 }
@@ -163,13 +146,54 @@ save_board(const char *filename, char board[9][9]) {
      updates the board with the solution.
    When a solution does not exist, the function returns FALSE and
      the board remains unchanged. */
-Bool solve_board(char board[9][9]); {
-
+bool solve_board(char board[9][9]) {
+  return 0;
 
 }
 
 
-/* HELPER FUNCTION */
+/* HELPER FUNCTIONS */
 
+/* Function to confirm that a given digit is not repeated in the same row */
+bool check_row(int row_number, char digit, char board[9][9]) {
+  for (int c=1; c<=9; c++) {
+    if (board[row_number][c] == digit)
+      return 0;
+  }
+}
+/* End of function */
 
-/* add your functions here */
+/* Function to confirm that a given digit is not repeated in the same column */
+bool check_col(int col_number, char digit, char board[9][9]) {
+  for (int r=1; r<=9; r++) {
+    if (board[r][col_number] == digit)
+      return 0;
+  }
+}
+/* End of function */
+
+/* Function to confirm that a given digit is not repeated in the same sub-grid*/
+bool check_subgrid(int row_number, int col_number, char digit, char board[9][9]) {
+  // First define the starting positions of the sub-grids
+  int sub_grid_row_start;
+  if (row_number % 3 == 0) // row_number is 3, 6, or 9
+    sub_grid_row_start = row_number - 2;
+  else // row_number is 1, 2, 4, 5, 7, or 8
+    sub_grid_row_start = row_number - (row_number % 3);
+
+  int sub_grid_col_start;
+  if (col_number % 3 == 0) // col_number is 3, 6, or 9
+    sub_grid_col_start = col_number - 2;
+  else // col_number is 1, 2, 4, 5, 7, or 8
+    sub_grid_col_start = col_number - (col_number % 3);
+
+  // Now check the other entries in the sub-grid for repetitions
+  for (int i=0; i<3; i++) {
+    for (int j=0; j<3; j++) {
+      if (board[sub_grid_row_start+i][sub_grid_col_start+j] == digit)
+	return 0;
+    }
+  }
+}
+/* End of function */
+
