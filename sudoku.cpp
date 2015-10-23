@@ -94,10 +94,10 @@ bool is_complete(char board[9][9]) {
    at a given position, if it is a valid move. */
 bool make_move(char position[3], char digit, char board[9][9]) {
 
-  // Confirm that the first character is a valid letter
+  // Confirm that the first character is a letter from A to I (or a to i)
   if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
     return 0;
-  // Confirm that the second character is a valid number
+  // Confirm that the second character is a number between 1 to 9
   if (position[1]<49 || position[1]>57)
     return 0;
 
@@ -140,8 +140,44 @@ bool save_board(const char *filename, char board[9][9]) {
    When a solution does not exist, the function returns FALSE and
      the board remains unchanged. */
 bool solve_board(char board[9][9]) {
-  return 0;
+  if (!is_valid(board))
+    return 0;
+  if (is_complete(board))
+    return 1;
 
+  // Make a copy of the board
+  char updated_board[9][9];
+  for (int r=0; r<9; r++) {
+    for (int c=0; c<9; c++) {
+      updated_board[r][c] = board[r][c];
+    }
+  }
+  
+  for (int r=0; r<9; r++) {
+    for (int c=0; c<9; c++) {
+      char position[3];
+      char position_row = r + 65;
+      char position_col = c + 49;
+      position[0] = position_row;
+      position[1] = position_col;
+
+      if (!isdigit(updated_board[r][c])) { // board[r][c] is empty
+	for (char guess=1; guess<=9; guess++) {
+	  if (make_move(position, guess, updated_board)) {
+	    if (solve_board(updated_board)) { // A solution is found
+	        for (int r=0; r<9; r++) {
+		  for (int c=0; c<9; c++) {
+		    board[r][c] = updated_board[r][c];
+		    return 1;
+		  }
+		}
+	    }
+	  }
+	}
+      }
+    }
+  }
+  return 0;
 }
 
 
@@ -150,7 +186,7 @@ bool solve_board(char board[9][9]) {
 /* Function to confirm that a given digit is not repeated in the same row */
 bool check_row(int row_number, char digit, char board[9][9]) {
   for (int c=0; c<9; c++) {
-    if (board[row_number-1][c] == digit)
+    if(!(board[row_number][c] == digit))
       return 0;
   }
   return 1;
@@ -160,7 +196,7 @@ bool check_row(int row_number, char digit, char board[9][9]) {
 /* Function to confirm that a given digit is not repeated in the same column */
 bool check_col(int col_number, char digit, char board[9][9]) {
   for (int r=0; r<9; r++) {
-    if (board[r][col_number-1] == digit)
+    if (!(board[r][col_number] == digit))
       return 0;
   }
   return 1;
@@ -174,7 +210,7 @@ bool check_subgrid(int row_number, int col_number, char digit, char board[9][9])
 
   for (int i=0; i<3; i++) {
     for (int j=0; j<3; j++) {
-      if (board[sub_grid_row_start+i][sub_grid_col_start+j] == digit)
+      if (!(board[sub_grid_row_start+i][sub_grid_col_start+j] == digit))
 	return 0;
     }
   }
@@ -182,3 +218,25 @@ bool check_subgrid(int row_number, int col_number, char digit, char board[9][9])
 }
 /* End of function */
 
+/* Function to check if a given Sudoku board is valid. */
+bool is_valid(char board[9][9]) {
+  for (int r=0; r<9; r++) {
+    for (int c=0; c<9; c++) {
+      if (isdigit(board[r][c])) {
+	char temp_value = board[r][c];
+	board[r][c] = '.';
+
+	if (!check_row(r, temp_value, board))
+	  return 0;
+	if (!check_col(c, temp_value, board))
+	  return 0;
+	if (!check_subgrid(r, c, temp_value, board))
+	  return 0;
+
+	board[r][c] = temp_value;
+      }
+    }
+  }
+  return 1;
+}
+/* End of function */
