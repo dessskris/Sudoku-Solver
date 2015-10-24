@@ -72,9 +72,44 @@ int main() {
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
+  load_board("impossible.dat", board);
+  if (solve_board(board)) {
+    cout << "The 'impossible' board has a solution:" << endl;
+    display_board(board);
+  } else 
+    cout << "A solution cannot be found." << endl;
+  cout << endl;
+
 	// write more tests
 
   cout << "====================== Question 5 ======================" << endl << endl;
+
+  load_board("mystery1.dat", board);
+  if (solve_board(board)) {
+    cout << "The 'mystery1' board has a solution:" << endl;
+    display_board(board);
+    save_board("mystery1-solution.dat", board);
+  } else 
+    cout << "A solution cannot be found." << endl;
+  cout << endl;
+
+  load_board("mystery2.dat", board);
+  if (solve_board(board)) {
+    cout << "The 'mystery2' board has a solution:" << endl;
+    display_board(board);
+    save_board("mystery2-solution.dat", board);
+  } else 
+    cout << "A solution cannot be found." << endl;
+  cout << endl;
+
+  load_board("mystery3.dat", board);
+  if (solve_board(board)) {
+    cout << "The 'mystery3' board has a solution:" << endl;
+    display_board(board);
+    save_board("mystery3-solution.dat", board);
+  } else 
+    cout << "A solution cannot be found." << endl;
+  cout << endl;
 
 	// write more tests
 
