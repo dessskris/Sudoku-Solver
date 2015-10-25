@@ -159,7 +159,51 @@ bool solve_board(char board[9][9]) {
   char position[3];
   char position_row;
   char position_col;
-  int count = 0;
+
+  for (int r=0; r<9; r++) {
+    for (int c=0; c<9; c++) {
+      position_row = r + 65;
+      position_col = c + 49;
+      position[0] = position_row;
+      position[1] = position_col;
+
+      if (!isdigit(board[r][c]))// board[r][c] contains a dot (empty cell)
+	{ // Guess entries from 1 to 9
+	for (char guess='1'; guess<='9'; guess++)
+	  {
+	    if (make_move(position, guess, board)) { // guess is a valid entry
+	      if (solve_board(board)) { // A solution is found
+		return 1;
+	      }
+	      else { // A solution is not found in this case
+	      board[r][c] = '.';
+	      }
+	    }
+	    // guess is not a valid entry. Try the next guess.
+	  }
+	// All guesses have been attempted for board[r][c]
+	// Reaching this point means there is no possible entry for this cell
+	return 0;
+	}
+    }
+  }
+  return 0;
+}
+/* END OF TASK 4 */
+
+
+/* TASK 5 */
+/* Polymorphic function to solve a given Sudoku puzzle while keeping track of
+   the number of iterations taken to solve the puzzle */
+bool solve_board(char board[9][9], int &count) {
+  if (!is_valid(board))
+    return 0;
+  if (is_complete(board))
+    return 1;
+
+  char position[3];
+  char position_row;
+  char position_col;
 
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; c++) {
@@ -174,11 +218,12 @@ bool solve_board(char board[9][9]) {
 	  {
 	    count++;
 	    if (make_move(position, guess, board)) { // guess is a valid entry
-	      if (solve_board(board)) { // A solution is found
+	      if (solve_board(board, count)) { // A solution is found
 		return 1;
 	      }
-	      // A solution is not found in this case
+	      else { // A solution is not found in this case
 	      board[r][c] = '.';
+	      }
 	    }
 	    // guess is not a valid entry. Try the next guess.
 	  }
@@ -190,7 +235,9 @@ bool solve_board(char board[9][9]) {
   }
   return 0;
 }
-/* END OF TASK 4 */
+
+/* END OF TASK 5 */
+
 
 /* HELPER FUNCTIONS */
 
@@ -238,11 +285,7 @@ bool is_valid(char board[9][9]) {
 	char temp_value = board[r][c];
 	board[r][c] = '.';
 
-	if (!check_row(r, temp_value, board))
-	  return 0;
-	if (!check_col(c, temp_value, board))
-	  return 0;
-	if (!check_subgrid(r, c, temp_value, board))
+	if (!check_row(r, temp_value, board) || !check_col(c, temp_value, board) || !check_subgrid(r, c, temp_value, board))
 	  return 0;
 
 	board[r][c] = temp_value;

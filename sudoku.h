@@ -8,6 +8,7 @@ bool is_complete(char board[9][9]);
 bool make_move(char position[3], char digit, char board[9][9]);
 bool save_board(const char *filename, char board[9][9]);
 bool solve_board(char board[9][9]);
+bool solve_board(char board[9][9], int &count);
 bool check_row(int row_number, char digit, char board[9][9]);
 bool check_col(int col_number, char digit, char board[9][9]);
 bool check_subgrid(int row_number, int col_number, char digit, char board[9][9]);

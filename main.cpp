@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <ctime>
 #include "sudoku.h"
 
 using namespace std;
@@ -56,18 +57,27 @@ int main() {
 
   cout << "====================== Question 4 ======================" << endl << endl;
 
+  int count_e=0, count_m=0;
+  clock_t te, tm;
+
   load_board("easy.dat", board);
-  if (solve_board(board)) {
+  te = clock();
+  if (solve_board(board, count_e)) {
+    te = clock() - te;
     cout << "The 'easy' board has a solution:" << endl;
     display_board(board);
+    cout << "The program took " << count_e << " iterations and " << te << " clicks."  << endl;
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
   load_board("medium.dat", board);
-  if (solve_board(board)) {
+  tm = clock();
+  if (solve_board(board, count_m)) {
+    tm = clock() - tm;
     cout << "The 'medium' board has a solution:" << endl;
     display_board(board);
+    cout << "The program took " << count_m << " iterations and " << tm << " clicks." << endl;
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
@@ -83,29 +93,39 @@ int main() {
 	// write more tests
 
   cout << "====================== Question 5 ======================" << endl << endl;
+ 
+  int count_1=0, count_2=0, count_3=0;
+  clock_t t1, t3;
 
   load_board("mystery1.dat", board);
-  if (solve_board(board)) {
+  t1 = clock();
+  if (solve_board(board, count_1)) {
+    t1 = clock() - t1;
     cout << "The 'mystery1' board has a solution:" << endl;
     display_board(board);
+    cout << "The program took " << count_1 << " iterations and " << t1 << " clicks." << endl;
     save_board("mystery1-solution.dat", board);
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
   load_board("mystery2.dat", board);
-  if (solve_board(board)) {
+  if (solve_board(board, count_2)) {
     cout << "The 'mystery2' board has a solution:" << endl;
     display_board(board);
+    cout << "The program took " << count_2 << " iterations." << endl;
     save_board("mystery2-solution.dat", board);
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
   load_board("mystery3.dat", board);
-  if (solve_board(board)) {
+  t3 = clock();
+  if (solve_board(board, count_3)) {
+    t3 = clock() - t3;
     cout << "The 'mystery3' board has a solution:" << endl;
     display_board(board);
+    cout << "The program took " << count_3 << " iterations and " << t3 << " clicks." << endl;
     save_board("mystery3-solution.dat", board);
   } else 
     cout << "A solution cannot be found." << endl;
