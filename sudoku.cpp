@@ -1,3 +1,11 @@
+/*--------------------------------------------------------------------------+
+|  IMPLEMENTATION FILE                                                      |
+|  File Name:    sudoku.cpp                                                 |
+|  Student:      Desy Kristianti                                            |
+|  Coursework:   MSc C++ Programming - Assessed Exercise No. 1              |
+|  Date:         29 October 2015                                            |
++--------------------------------------------------------------------------*/
+
 #include <iostream>
 #include <fstream>
 #include <cstdio>
@@ -72,198 +80,208 @@ void display_board(const char board[9][9]) {
 
 /* add your functions here */
 
-/* START OF STUDENT'S WORK */
+/*--------------------------+
+|  START OF STUDENT'S WORK  |
++--------------------------*/
 
+/*--------------------------------------------------------------------------+
+|  TASK 1                                                                   |
+|  Function to check if all entries in a given Sudoku board is a digit      |
++--------------------------------------------------------------------------*/
 
-/* TASK 1 */
-/* Function to check if all entries in a given Sudoku board is a digit */
 bool is_complete(char board[9][9]) {
+
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; c++) {
+
       if (!isdigit(board[r][c]))
 	return 0;
+
     }
   }
   return 1;
 }
-/* END OF TASK 1 */
 
+/*--------------------------------------------------------------------------+
+|  TASK 2                                                                   |
+|  Function to check if placing a given digit onto a given Sudoku board     |
+|  at a given position is a valid move, and make the move if valid.         |
++--------------------------------------------------------------------------*/
 
-/* TASK 2 */
-/* Function to place a given digit onto a given Sudoku board
-   at a given position, if it is a valid move. */
 bool make_move(char position[3], char digit, char board[9][9]) {
 
-  // Confirm that the first character is a letter from A to I (or a to i)
-  if (position[0]<65 || (position[0]>73 && position[0]<97) || position[0]>105)
+  if (position[0] < 65 || (position[0] > 73 && position[0] < 97) || position[0] > 105)
     return 0;
-  // Confirm that the second character is a number between 1 to 9
-  if (position[1]<49 || position[1]>57)
+  else if (position[1] < 49 || position[1] > 57)
     return 0;
 
-  // Define the row number ranging from 0 to 8
   int position_row;
-  if (position[0]>=65 && position[0]<=73) // Upper case letter input
+  if (position[0] >= 65 && position[0] <= 73) // Upper case letter input
     position_row = position[0] - 65;
-  if (position[0]>=97 && position[0]<=105) // Lower case letter input
+  else if (position[0] >= 97 && position[0] <= 105) // Lower case letter input
     position_row = position[0] - 97;
-  // Define the column number ranging from 0 to 8
+
   int position_col = position[1] - 49;
 
-  if (!check_row(position_row, digit, board))
-    return 0;
-  if (!check_col(position_col, digit, board))
-    return 0;
-  if (!check_subgrid(position_row, position_col, digit, board))
+  if (!check(position_row, position_col, digit, board))
     return 0;
 
-  // All checks are passed!
-  // Place the given digit onto the given Sudoku board at the given position
   board[position_row][position_col] = digit;
   return 1;
 }
-/* END OF TASK 2 */
 
+/*--------------------------------------------------------------------------+
+|  TASK 3                                                                   |
+|  Function to save a given Sudoku board in a file named "filename"         |
++--------------------------------------------------------------------------*/
 
-/* TASK 3 */
-/* Function to save a given Sudoku board in a file named "filename" */
 bool save_board(const char *filename, char board[9][9]) {
+
   ofstream out_stream;
   out_stream.open(filename);
 
+  if (out_stream.fail())
+    return 0;
+
   for (int r=0; r<9; r++) {
+
     for (int c=0; c<9; c++) {
       out_stream.put(board[r][c]);
     }
+
     out_stream << endl;
   }
 
   out_stream.close();
+
   return 1;
 }
-/* END OF TASK 3 */
 
+/*--------------------------------------------------------------------------+
+|  TASK 4                                                                   |
+|  Function to solve a given Sudoku puzzle.                                 |
+|  When a solution is found, the function returns 1 and                     |
+|    updates the board with the solution.                                   |
+|  When a solution does not exist, the function returns 0 and               |
+|    the board remains unchanged.                                           |
++--------------------------------------------------------------------------*/
 
-/* TASK 4 */
-/* Function to solve a given Sudoku puzzle.
-   When a solution is found, the function returns TRUE and
-     updates the board with the solution.
-   When a solution does not exist, the function returns FALSE and
-     the board remains unchanged. */
 bool solve_board(char board[9][9]) {
+
   if (!is_valid(board))
     return 0;
   if (is_complete(board))
     return 1;
 
   char position[3];
-  char position_row;
-  char position_col;
 
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; c++) {
-      position_row = r + 65;
-      position_col = c + 49;
-      position[0] = position_row;
-      position[1] = position_col;
+      position[0] = r + 65;
+      position[1] = c + 49;
 
-      if (!isdigit(board[r][c]))// board[r][c] contains a dot (empty cell)
-	{ // Guess entries from 1 to 9
-	for (char guess='1'; guess<='9'; guess++)
-	  {
+      if (board[r][c] == '.') {
+
+	for (char guess='1'; guess<='9'; guess++) {
+	  
 	    if (make_move(position, guess, board)) { // guess is a valid entry
-	      if (solve_board(board)) { // A solution is found
+
+	      if (solve_board(board)) // The updated board has a solution
 		return 1;
-	      }
-	      else { // A solution is not found in this case
-	      board[r][c] = '.';
-	      }
+
+	      else
+		board[r][c] = '.';
+	      
 	    }
 	    // guess is not a valid entry. Try the next guess.
-	  }
-	// All guesses have been attempted for board[r][c]
-	// Reaching this point means there is no possible entry for this cell
-	return 0;
 	}
+
+	// All possible guesses have been attempted for this cell
+	// Reaching this point means this cell has no possible entry
+	return 0;
+      }
+
     }
   }
+
   return 0;
 }
-/* END OF TASK 4 */
 
+/*--------------------------------------------------------------------------+
+|  TASK 5                                                                   |
+|  Polymorphic function to solve a given Sudoku puzzle while keeping track  |
+|  of the number of iterations taken to solve the puzzle                    |
++--------------------------------------------------------------------------*/
 
-/* TASK 5 */
-/* Polymorphic function to solve a given Sudoku puzzle while keeping track of
-   the number of iterations taken to solve the puzzle */
 bool solve_board(char board[9][9], int &count) {
+
+  count++;
+
   if (!is_valid(board))
     return 0;
   if (is_complete(board))
     return 1;
 
   char position[3];
-  char position_row;
-  char position_col;
 
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; c++) {
-      position_row = r + 65;
-      position_col = c + 49;
-      position[0] = position_row;
-      position[1] = position_col;
+      position[0] = r + 65;
+      position[1] = c + 49;
 
-      if (!isdigit(board[r][c]))// board[r][c] contains a dot (empty cell)
-	{ // Guess entries from 1 to 9
-	for (char guess='1'; guess<='9'; guess++)
-	  {
-	    count++;
-	    if (make_move(position, guess, board)) { // guess is a valid entry
-	      if (solve_board(board, count)) { // A solution is found
+      if (board[r][c] == '.') {
+	
+	for (char guess='1'; guess<='9'; guess++) {
+	  
+	    if (make_move(position, guess, board)) {
+
+	      if (solve_board(board, count))
 		return 1;
-	      }
-	      else { // A solution is not found in this case
-	      board[r][c] = '.';
-	      }
+	      
+	      else 
+		board[r][c] = '.';
+	      
 	    }
-	    // guess is not a valid entry. Try the next guess.
-	  }
-	// All guesses have been attempted for board[r][c]
-	// Reaching this point means there is no possible entry for this cell
-	return 0;
 	}
+
+	return 0;
+      }
     }
   }
   return 0;
 }
 
-/* END OF TASK 5 */
-
-
-/* HELPER FUNCTIONS */
-
+/*-------------------+
+|  HELPER FUNCTIONS  |
++-------------------*/
 
 /* Function to confirm that a given digit is not repeated in the same row */
 bool check_row(int row_number, char digit, char board[9][9]) {
+
   for (int c=0; c<9; c++) {
     if(board[row_number][c] == digit)
       return 0;
   }
+
   return 1;
 }
 /* End of function */
 
 /* Function to confirm that a given digit is not repeated in the same column */
 bool check_col(int col_number, char digit, char board[9][9]) {
+
   for (int r=0; r<9; r++) {
     if (board[r][col_number] == digit)
       return 0;
   }
+
   return 1;
 }
 /* End of function */
 
 /* Function to confirm that a given digit is not repeated in the same sub-grid*/
 bool check_subgrid(int row_number, int col_number, char digit, char board[9][9]) {
+
   int sub_grid_row_start = row_number - (row_number % 3);
   int sub_grid_col_start = col_number - (col_number % 3);
 
@@ -273,28 +291,47 @@ bool check_subgrid(int row_number, int col_number, char digit, char board[9][9])
 	return 0;
     }
   }
+
+  return 1;
+}
+/* End of function */
+
+/* Function to confirm that a given digit is not repeated in the same row, column, or sub-grid */
+bool check(int row_number, int col_number, char digit, char board[9][9]) {
+
+  if (!check_row(row_number, digit, board)) 
+    return 0;
+  else if (!check_col(col_number, digit, board))
+    return 0;
+  else if (!check_subgrid(row_number, col_number, digit, board))
+    return 0;
+
   return 1;
 }
 /* End of function */
 
 /* Function to check if a given Sudoku board is valid. */
 bool is_valid(char board[9][9]) {
+
   for (int r=0; r<9; r++) {
     for (int c=0; c<9; c++) {
+
       if (isdigit(board[r][c])) {
 	char temp_value = board[r][c];
 	board[r][c] = '.';
 
-	if (!check_row(r, temp_value, board) || !check_col(c, temp_value, board) || !check_subgrid(r, c, temp_value, board))
+	if (!check(r, c, temp_value, board))
 	  return 0;
 
 	board[r][c] = temp_value;
       }
     }
   }
+
   return 1;
 }
 /* End of function */
 
-
-/* END OF STUDENT'S WORK */
+/*------------------------+
+|  END OF STUDENT'S WORK  |
++------------------------*/

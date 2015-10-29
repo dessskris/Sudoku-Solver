@@ -2,14 +2,14 @@ By inputting the mystery puzzle boards 'mystery1', 'mystery2', and
 'mystery3' in the function solve_board, the following results may be
 concluded:
 
-- The board 'mystery1' has a solution. I have stored a copy of the
-  solution in 'mystery1-solution.dat'.
+- The board 'mystery1' has a solution. A copy of the solution may be
+  found in 'mystery1-solution.dat'.
 
 - The board 'mystery2' has no solution. This is the board that's
   impossible to solve.
 
-- The board 'mystery3' has a solution. I have stored a copy of the
-  solution in 'mystery3-solution.dat'.
+- The board 'mystery3' has a solution. A copy of the solution may be
+  found in 'mystery3-solution.dat'.
 
 I am now left to identify which board is of "hard" difficulty and
 which board is of "extremely hard" difficulty.
@@ -17,111 +17,78 @@ which board is of "extremely hard" difficulty.
 -----------------------------------------------------------------
 
 The difficulty level of a Sudoku board is a subjective manner. As to
- eliminate ambiguity, I would like to define several ways to distinguish the
- difficulty levels.
+ eliminate ambiguity, I would like to define several ways to distinguish
+ the difficulty levels.
 
 -----------------------------------------------------------------
 
 METHOD 1: The number of iterations that the program took to solve the
 Sudoku board
 
-By adding a polymorphic function to count the number of iterations,
-the following results are found:
-- The 'easy' board took 19,337 iterations
-- The 'medium' board took 140,743 iterations
-- The 'mystery1' board took 3,793,687 iterations
-- The 'mystery3' board took 126,954 iterations
+By adding a polymorphic function to count the number of times the
+function is recursed, the following results are found:
 
-CONCLUSION 1: Sorting the boards by the number of iterations the
-program took from the fewest iterations to the most iterations:
-'easy', 'mystery3', 'medium', 'mystery1'
++----------+-------------------+
+| Board    | No. of Iterations |
++----------+-------------------+
+| easy     |             2,172 |
+| medium   |            15,662 |
+| mystery1 |           421,547 |
+| mystery3 |            14,134 |
++----------+-------------------+
 
-Since 'mystery3' takes significantly fewer iterations to be solved
-than 'mystery1', it may be deduced that 'mystery3' is of "hard"
-difficulty and 'mystery1' is of "extremely hard" difficulty.
+Since 'mystery1' takes significantly more iterations to be solved than
+'mystery3', it may be deduced that 'mystery1' is of " extremely hard"
+difficulty and 'mystery3' is of "hard" difficulty.
 
 However, it is worth noting that 'medium' takes more iterations than
 'mystery3' to solve. This is a limitation of this method as the number
-of iteration may vary within the same difficulty level as it depends
-on the starting digits and its distribution. Nevertheless, the number
-of iteration 'mystery1' took to solve is significantly more than
-'mystery3'. Therefore, 'mystery1' is of "extremely hard" difficulty.
+of iteration depends on the starting digits and its distribution.
 
 -----------------------------------------------------------------
 
-METHOD 2: The time that the program took to solve the Sudoku board
+METHOD 2: The number of starting digits in the initial Sudoku board
 
-By adding a time tracker in 'main.cpp', the following results are
-found:
-- The 'easy' board took 16,625 counts
-- The 'medium' board took 125,412 counts
-- The 'mystery1' board took 3,301,279 counts
-- The 'mystery3' board took 86,784 counts
++----------+------------------------+
+| Board    | No. of Starting Digits |
++----------+------------------------+
+| easy     |                     26 |
+| medium   |                     25 |
+| mystery1 |                     23 |
+| mystery3 |                     24 |
++----------+------------------------+
 
-CONCLUSION 2: Sorting the boards by the time the program took from the
-fastest to the slowest:
-'easy', 'mystery3', 'medium', 'mystery1'
-
-Since 'mystery3' takes significantly less time to be solved than
-'mystery1', it may be deduced that 'mystery3' is of "hard" difficulty
-and 'mystery1' is of "extremely hard" difficulty. 
-
-However, it is worth noting that 'medium' again takes more time than
-'mystery3' to solve. This is a limitation of this method as the time
-taken may vary within the same difficulty level as there are other
-factors that may affect the speed of a program. Nevertheless, the time
-'mystery1' took to solve is significantly more than 'mystery3'.
-Therefore, 'mystery1' is of "extremely hard" difficulty. 
-
------------------------------------------------------------------
-
-METHOD 3: The number of starting digits in the initial Sudoku board
-
-- The 'easy' board has 26 starting digits
-- The 'medium' board has 25 starting digits
-- The 'mystery1' board has 23 starting digits
-- The 'mystery3' board has 24 starting digits
-
-CONCLUSION 3: Sorting the boards by the number of starting digits from the most
-digits to the fewest digits:
-'easy', 'medium', 'mystery3', 'mystery1'
-
-Since 'mystery3' has more starting digits than 'mystery1', it may be
+Since 'mystery3' has one more starting digit than 'mystery1', it may be
 deduced that 'mystery3' is of "hard" difficulty and 'mystery1' is of
 "extremely hard" difficulty.
 
 -----------------------------------------------------------------
 
-METHOD 4: The number of starting digits in each subgrid
+METHOD 3: The number of starting digits in each subgrid
 
-- The 'easy' board has 3, 3, 3, 3, 2, 3, 3, 3, 3 starting digits in
-each respective subgrid
-- The 'medium' board has 4, 2, 3, 2, 3, 2, 3, 2, 4 starting digits in
-each respective subgrid
-- The 'mystery1' board has 3, 3, 3, 2, 2, 2, 2, 2, 3 starting digits in
-each respective subgrid
-- The 'mystery3' board has 3, 2, 3, 2, 4, 2, 3, 2, 3 starting digits in
-each respective subgrid
++----------+---------------------------+----------------------+
+| Board    | No. of Starting Digits in | No. of Subgrids with |
+|          | each Subgrid              | 2 Starting Digits    |
++----------+---------------------------+----------------------+
+| easy     | 3, 3, 3, 3, 2, 3, 3, 3, 3 |                    1 |
+| medium   | 4, 2, 3, 2, 3, 2, 3, 2, 4 |                    4 |
+| mystery1 | 3, 3, 3, 2, 2, 2, 2, 2, 3 |                    5 |
+| mystery3 | 3, 2, 3, 2, 4, 2, 3, 2, 3 |                    4 |
++----------+---------------------------+----------------------+
 
-CONCLUSION 4:
-- The 'easy' board has 1 subgrid with 2 starting digits
-- The 'medium' board has 4 subgrids with 2 starting digits
-- The 'mystery1' board has 5 subgrids with 2 starting digits
-- The 'mystery3' board has 4 subgrids with 2 starting digits
-
-Notice 'mystery3' has fewer subgrids with 2 starting digits than
-'mystery1'; and 'mystery3' has 1 subgrid with 4 starting digits whereas
-'mystery1' has no subgrids with 4 starting digits. Therefore it may be
-deduced that 'mystery3' is of "hard" difficulty and 'mystery1' is of
-"extremely hard" difficulty.
+Notice 'mystery1' has more subgrids with 2 starting digits than
+'mystery3'; and 'mystery3' has 1 subgrid with 4 starting digits whereas
+'mystery1' does not.
+Therefore it may be deduced that 'mystery3' is of "hard" difficulty
+and 'mystery1' is of "extremely hard" difficulty.
 
 -----------------------------------------------------------------
 
 FINAL CONCLUSION:
 
-After considering four different ways of deducing which one of
+After considering three different ways of deducing which one of
 'mystery1' and 'mystery3' is of "hard" or "extremely hard" difficulty,
-all four measures result in the same conclusion as follows:
+all three measures result in the same conclusion as follows:
 
 - 'mystery1': "extremely hard"
 - 'mystery3': "hard"
