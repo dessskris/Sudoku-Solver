@@ -3,7 +3,7 @@
 |  Student:      Desy Kristianti                                            |
 |  Coursework:   MSc C++ Programming - Assessed Exercise No. 1              |
 |  Description:  Program to solve a Sudoku puzzle                           |
-|  Date:         29 October 2015                                            |
+|  Date:         2 November 2015                                            |
 +--------------------------------------------------------------------------*/
 
 #include <iostream>
@@ -65,22 +65,24 @@ int main() {
 
   cout << "====================== Question 4 ======================" << endl << endl;
 
-  int count_e = 0, count_m = 0;
+  int count = 0;
 
   load_board("easy.dat", board);
-  if (solve_board(board, count_e)) {
+  if (solve_board(board, count)) {
     cout << "The 'easy' board has a solution:" << endl;
     display_board(board);
-    cout << "The program took " << count_e << " iterations." << endl;
+    cout << "The program took " << count << " iterations." << endl;
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
+  count = 0;
+
   load_board("medium.dat", board);
-  if (solve_board(board, count_m)) {
+  if (solve_board(board, count)) {
     cout << "The 'medium' board has a solution:" << endl;
     display_board(board);
-    cout << "The program took " << count_m << " iterations." << endl;
+    cout << "The program took " << count << " iterations." << endl;
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
@@ -95,44 +97,49 @@ int main() {
 
   cout << "====================== Question 5 ======================" << endl << endl;
  
-  int count_1 = 0, count_2 = 0, count_3 = 0, count_empty = 0;
+  count = 0;
 
   load_board("mystery1.dat", board);
-  if (solve_board(board, count_1)) {
+  if (solve_board(board, count)) {
     cout << "The 'mystery1' board has a solution:" << endl;
     display_board(board);
-    cout << "The program took " << count_1 << " iterations." << endl;
+    cout << "The program took " << count << " iterations." << endl;
     save_board("mystery1-solution.dat", board);
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
+  count = 0;
+
   load_board("mystery2.dat", board);
-  if (solve_board(board, count_2)) {
+  if (solve_board(board, count)) {
     cout << "The 'mystery2' board has a solution:" << endl;
     display_board(board);
-    cout << "The program took " << count_2 << " iterations." << endl;
+    cout << "The program took " << count << " iterations." << endl;
     save_board("mystery2-solution.dat", board);
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
+  count = 0;
+
   load_board("mystery3.dat", board);
-  if (solve_board(board, count_3)) {
+  if (solve_board(board, count)) {
     cout << "The 'mystery3' board has a solution:" << endl;
     display_board(board);
-    cout << "The program took " << count_3 << " iterations." << endl;
+    cout << "The program took " << count << " iterations." << endl;
     save_board("mystery3-solution.dat", board);
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;
 
+  count = 0;
+
   load_board("empty.dat", board);
-  if (solve_board(board, count_empty)) {
+  if (solve_board(board, count)) {
     cout << "The 'empty' board has a solution:" << endl;
     display_board(board);
-    cout << "The program took " << count_empty << " iterations." << endl;
-    save_board("empty-solution.dat", board);
+    cout << "The program took " << count << " iterations." << endl;
   } else 
     cout << "A solution cannot be found." << endl;
   cout << endl;

@@ -3,7 +3,7 @@
 |  File Name:    sudoku.cpp                                                 |
 |  Student:      Desy Kristianti                                            |
 |  Coursework:   MSc C++ Programming - Assessed Exercise No. 1              |
-|  Date:         29 October 2015                                            |
+|  Date:         2 November 2015                                            |
 +--------------------------------------------------------------------------*/
 
 #include <iostream>
@@ -84,11 +84,7 @@ void display_board(const char board[9][9]) {
 |  START OF STUDENT'S WORK  |
 +--------------------------*/
 
-/*--------------------------------------------------------------------------+
-|  TASK 1                                                                   |
-|  Function to check if all entries in a given Sudoku board is a digit      |
-+--------------------------------------------------------------------------*/
-
+/* TASK 1 */
 bool is_complete(char board[9][9]) {
 
   for (int r=0; r<9; r++) {
@@ -101,13 +97,9 @@ bool is_complete(char board[9][9]) {
   }
   return 1;
 }
+/* END OF TASK 1 */
 
-/*--------------------------------------------------------------------------+
-|  TASK 2                                                                   |
-|  Function to check if placing a given digit onto a given Sudoku board     |
-|  at a given position is a valid move, and make the move if valid.         |
-+--------------------------------------------------------------------------*/
-
+/* TASK 2 */
 bool make_move(char position[3], char digit, char board[9][9]) {
 
   if (position[0] < 65 || (position[0] > 73 && position[0] < 97) || position[0] > 105)
@@ -129,12 +121,9 @@ bool make_move(char position[3], char digit, char board[9][9]) {
   board[position_row][position_col] = digit;
   return 1;
 }
+/* END OF TASK 2 */
 
-/*--------------------------------------------------------------------------+
-|  TASK 3                                                                   |
-|  Function to save a given Sudoku board in a file named "filename"         |
-+--------------------------------------------------------------------------*/
-
+/* TASK 3 */
 bool save_board(const char *filename, char board[9][9]) {
 
   ofstream out_stream;
@@ -156,16 +145,9 @@ bool save_board(const char *filename, char board[9][9]) {
 
   return 1;
 }
+/* END OF TASK 3 */
 
-/*--------------------------------------------------------------------------+
-|  TASK 4                                                                   |
-|  Function to solve a given Sudoku puzzle.                                 |
-|  When a solution is found, the function returns 1 and                     |
-|    updates the board with the solution.                                   |
-|  When a solution does not exist, the function returns 0 and               |
-|    the board remains unchanged.                                           |
-+--------------------------------------------------------------------------*/
-
+/* TASK 4 */
 bool solve_board(char board[9][9]) {
 
   if (!is_valid(board))
@@ -206,13 +188,9 @@ bool solve_board(char board[9][9]) {
 
   return 0;
 }
+/* END OF TASK 4 */
 
-/*--------------------------------------------------------------------------+
-|  TASK 5                                                                   |
-|  Polymorphic function to solve a given Sudoku puzzle while keeping track  |
-|  of the number of iterations taken to solve the puzzle                    |
-+--------------------------------------------------------------------------*/
-
+/* TASK 5 */
 bool solve_board(char board[9][9], int &count) {
 
   count++;
@@ -250,12 +228,12 @@ bool solve_board(char board[9][9], int &count) {
   }
   return 0;
 }
+/* END OF TASK 5 */
 
 /*-------------------+
 |  HELPER FUNCTIONS  |
 +-------------------*/
 
-/* Function to confirm that a given digit is not repeated in the same row */
 bool check_row(int row_number, char digit, char board[9][9]) {
 
   for (int c=0; c<9; c++) {
@@ -265,9 +243,7 @@ bool check_row(int row_number, char digit, char board[9][9]) {
 
   return 1;
 }
-/* End of function */
 
-/* Function to confirm that a given digit is not repeated in the same column */
 bool check_col(int col_number, char digit, char board[9][9]) {
 
   for (int r=0; r<9; r++) {
@@ -277,9 +253,7 @@ bool check_col(int col_number, char digit, char board[9][9]) {
 
   return 1;
 }
-/* End of function */
 
-/* Function to confirm that a given digit is not repeated in the same sub-grid*/
 bool check_subgrid(int row_number, int col_number, char digit, char board[9][9]) {
 
   int sub_grid_row_start = row_number - (row_number % 3);
@@ -294,9 +268,7 @@ bool check_subgrid(int row_number, int col_number, char digit, char board[9][9])
 
   return 1;
 }
-/* End of function */
 
-/* Function to confirm that a given digit is not repeated in the same row, column, or sub-grid */
 bool check(int row_number, int col_number, char digit, char board[9][9]) {
 
   if (!check_row(row_number, digit, board)) 
@@ -308,9 +280,7 @@ bool check(int row_number, int col_number, char digit, char board[9][9]) {
 
   return 1;
 }
-/* End of function */
 
-/* Function to check if a given Sudoku board is valid. */
 bool is_valid(char board[9][9]) {
 
   for (int r=0; r<9; r++) {
@@ -330,7 +300,6 @@ bool is_valid(char board[9][9]) {
 
   return 1;
 }
-/* End of function */
 
 /*------------------------+
 |  END OF STUDENT'S WORK  |

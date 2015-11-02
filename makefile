@@ -1,10 +1,10 @@
-GXX=g++ -Wall -g
+CXX=g++ -Wall -g
 
 sudoku: main.o sudoku.o
-	$(GXX) main.o sudoku.o -o sudoku
+	$(CXX) main.o sudoku.o -o sudoku
 
 %.o: %.cpp sudoku.h
-	$(GXX) -c $<
+	$(CXX) -c $<
 
 .PHONY: clean
 clean:
