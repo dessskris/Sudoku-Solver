@@ -166,7 +166,7 @@ bool solve_board(char board[9][9]) {
 
 	for (char guess='1'; guess<='9'; guess++) {
 	  
-	    if (make_move(position, guess, board)) { // guess is a valid entry
+	    if (make_move(position, guess, board)) { // GUESS is a valid entry
 
 	      if (solve_board(board)) // The updated board has a solution
 		return 1;
@@ -175,7 +175,7 @@ bool solve_board(char board[9][9]) {
 		board[r][c] = '.';
 	      
 	    }
-	    // guess is not a valid entry. Try the next guess.
+	    // GUESS is not a valid entry. Try the next guess.
 	}
 
 	// All possible guesses have been attempted for this cell
