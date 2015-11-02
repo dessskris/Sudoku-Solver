@@ -14,13 +14,13 @@ concluded:
 I am now left to identify which board is of "hard" difficulty and
 which board is of "extremely hard" difficulty.
 
------------------------------------------------------------------
+--------------------------------------------------------------------
 
 The difficulty level of a Sudoku board is a subjective manner. As to
  eliminate ambiguity, I would like to define several ways to distinguish
  the difficulty levels.
 
------------------------------------------------------------------
+--------------------------------------------------------------------
 
 METHOD 1: The number of iterations that the program took to solve the
 Sudoku board
@@ -45,7 +45,10 @@ However, it is worth noting that 'medium' takes more iterations than
 'mystery3' to solve. This is a limitation of this method as the number
 of iteration depends on the starting digits and its distribution.
 
------------------------------------------------------------------
+If we guessed from '9' to '1' or randomly, the number of iterations
+will differ and thus we may arrive in other conclusions.
+
+--------------------------------------------------------------------
 
 METHOD 2: The number of starting digits in the initial Sudoku board
 
@@ -62,7 +65,7 @@ Since 'mystery3' has one more starting digit than 'mystery1', it may be
 deduced that 'mystery3' is of "hard" difficulty and 'mystery1' is of
 "extremely hard" difficulty.
 
------------------------------------------------------------------
+--------------------------------------------------------------------
 
 METHOD 3: The number of starting digits in each subgrid
 
@@ -82,7 +85,7 @@ Notice 'mystery1' has more subgrids with 2 starting digits than
 Therefore it may be deduced that 'mystery3' is of "hard" difficulty
 and 'mystery1' is of "extremely hard" difficulty.
 
------------------------------------------------------------------
+--------------------------------------------------------------------
 
 FINAL CONCLUSION:
 
